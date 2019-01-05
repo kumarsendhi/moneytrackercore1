@@ -54,9 +54,36 @@ namespace moneytrackercore.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Threw exception while saving User: {0}, ex");
+                _logger.LogError($"Threw exception while saving User: {ex}");
             }
             return BadRequest();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id,[FromBody] Users model)
+        {
+            try
+            {
+                var oldUser = _userRepository.GetUser(id);
+                if (oldUser == null) return NotFound($"Could not find a user with an ID of: {id}");
+
+                oldUser.FirstName = model.FirstName ?? model.FirstName;
+                oldUser.LastName = model.LastName ?? model.LastName;
+                oldUser.Email = model.Email ?? model.Email;
+                oldUser.Password = model.Password ?? model.Password;
+
+                if (await _userRepository.SaveAllAsync())
+                {
+                    return Ok(oldUser);
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return BadRequest("Couldn't update User");
         }
     }
 }

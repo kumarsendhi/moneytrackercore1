@@ -85,5 +85,31 @@ namespace moneytrackercore.Controllers
 
             return BadRequest("Couldn't update User");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var oldUser = _userRepository.GetUser(id);
+                if (oldUser == null) return NotFound($"Could not find a user with an ID of: {id}");
+
+                _userRepository.Delete(oldUser);
+
+
+                if (await _userRepository.SaveAllAsync())
+                {
+                    return Ok();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return BadRequest("Could not delete user");
+        }
+
+
+
     }
 }

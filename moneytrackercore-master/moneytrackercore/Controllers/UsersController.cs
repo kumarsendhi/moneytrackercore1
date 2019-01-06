@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using moneytrackercore.data.Entities;
+using moneytrackercore.Models;
 using moneytrackercore.Services;
 
 namespace moneytrackercore.Controllers
@@ -16,23 +18,25 @@ namespace moneytrackercore.Controllers
     {
         private IUserRepository _userRepository;
         private ILogger<UsersController> _logger;
+        private IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository, ILogger<UsersController> logger)
+        public UsersController(IUserRepository userRepository, ILogger<UsersController> logger, IMapper mapper)
         {
             _userRepository = userRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_userRepository.GetAllUsers());
+            return Ok(_mapper.Map<IEnumerable<UsersModel>>(_userRepository.GetAllUsers()));
         }
 
         [HttpGet("{id}", Name = "UserGet")]
         public IActionResult GetUser(int id)
         {
-            return Ok(_userRepository.GetUser(id));
+            return Ok(_mapper.Map<UsersModel>(_userRepository.GetUser(id)));
         }
 
         [HttpPost]

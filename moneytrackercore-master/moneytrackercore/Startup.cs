@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using moneytrackercore.Data;
 using moneytrackercore.Services;
 using Microsoft.Extensions.Configuration;
-
+using AutoMapper;
 
 namespace moneytrackercore
 {
@@ -29,6 +29,7 @@ namespace moneytrackercore
         {
             services.AddDbContext<moneytrackercoreDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("moneytrackercore")));
             services.AddScoped<IUserRepository, SqlUserRepository>();
+            services.AddAutoMapper();
             services.AddMvc();
         }
 

@@ -29,6 +29,12 @@ namespace moneytrackercore
         {
             services.AddDbContext<moneytrackercoreDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("moneytrackercore")));
             services.AddScoped<IUserRepository, SqlUserRepository>();
+            services.AddScoped<IIncomeTypeRepository, SqlIncomeTypeRepository>();
+            services.AddScoped<IIncomeRepository, SqlIncomeRepository>();
+            services.AddScoped<IPaymentModeRepository, SqlPaymentModeRepository>();
+            services.AddScoped<IExpenditureConfigRepository, SqlExpenditureConfigRepository>();
+            services.AddScoped<IBalanceRepository, SqlBalanceRepository>();
+            services.AddScoped<IExpenditureRepository, SqlExpenditureRepository>();
             services.AddAutoMapper();
             services.AddMvc();
         }

@@ -8,7 +8,7 @@ namespace moneytrackercore.data.Entities
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public IncomeType Incometype { get; }
+        public IncomeType Incometype { get; set; }
         public DateTime Date { get; set; }
         public decimal AmountEarned { get; set; }
         public string Comment { get; set; }
